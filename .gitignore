@@ -1,0 +1,4 @@
+build/
+*.o
+*.out
+jihad-terminal
