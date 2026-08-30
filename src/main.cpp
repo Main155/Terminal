@@ -3,6 +3,7 @@
 #include <filesystem>
 #include <cstdlib>
 #include <vector>
+#include <sstream>
 
 namespace fs = std::filesystem;
 
@@ -17,7 +18,7 @@ void showHelp(){
     std::cout << "exit -Exit terminal\n\n";
 }
 
-std::vector<std::string>splitCommand(const std::string & command){
+std::vector<std::string> splitCommand(const std::string& command) {
     std::stringstream ss (command);
     std::vector<std::string>parts;
     std::string word;
@@ -42,13 +43,13 @@ int main(){
           std::vector<std::string> parts = splitCommand(command);
           std::string cmd = parts[0];
        
-        if(command == "help"){
+        if(cmd == "help"){
             showHelp();
         }
-        else if(command == "pwd"){
+        else if(cmd == "pwd"){
             std::cout << fs::current_path() << "\n";
         }
-        else if(command == "ls"){
+        else if(cmd == "ls"){
             for(const auto& entry : fs::directory_iterator(fs::current_path())){
                 std::cout << entry.path().filename().string() << "\n";
             }
@@ -58,28 +59,28 @@ int main(){
          if(parts.size() < 2){
             std::cout << "Usage: cd <directory>\n";
             continue;
+         }
             try{
                 fs::current_path(parts[1]);
             }catch(const fs::filesystem_error & error){
                  std::cout << "Error: " << error.what() << "\n";
             }
-         }
        } 
        
-       else if(command == "echo"){
+       else if(cmd == "echo"){
           for(size_t i = 1; i < parts.size() ; i++){
-            std::cout << parts[i] << "";
+            std::cout << parts[i] << " ";
           }
           std::cout << "\n";
        }
-        else if(command == "clear"){
+        else if(cmd == "clear"){
             system("clear");
         }
-        else if(command == "exit"){
+        else if(cmd == "exit"){
             std::cout << "GoodBye!\n";
             break;
         }else{
-            std::cout << "Command not Found: " << command << "\n";
+            std::cout << "Command not Found: " << cmd << "\n";
         }
    }
    return 0;
