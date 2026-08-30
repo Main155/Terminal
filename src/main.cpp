@@ -53,6 +53,14 @@ int main(){
                 std::cout << entry.path().filename().string() << "\n";
             }
         }
+       
+       else if (condition)
+       {
+        /* code */
+       }
+       
+        
+
         else if(command == "clear"){
             system("clear");
         }
