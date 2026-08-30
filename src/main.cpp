@@ -25,23 +25,33 @@ std::vector<std::string>splitCommand(const std::string & command){
     while(ss >> word){
         parts.push_back(word);
     }
+    return parts;
 }
 
 int main(){
-    std::string command;
+   std::string command;
 
     while(true){
-        std::cout << "jihad@terminal:~$";
-        std:: getline(std::cin, command);
-        
+         std::cout << "\ntheown@terminal:" << fs::current_path() << "$";
+          std:: getline(std::cin, command);
+           
+          if(command.empty()){
+            continue;
+          }
+
+          std::vector<std::string> parts = splitCommand(command);
+          std::string cmd = parts[0];
+       
         if(command == "help"){
             showHelp();
         }
         else if(command == "pwd"){
-            system("pwd");
+            std::cout << fs::current_path() << "\n";
         }
         else if(command == "ls"){
-            system("ls");
+            for(const auto& entry : fs::directory_iterator(fs::current_path())){
+                std::cout << entry.path().filename().string() << "\n";
+            }
         }
         else if(command == "clear"){
             system("clear");
@@ -49,8 +59,6 @@ int main(){
         else if(command == "exit"){
             std::cout << "GoodBye!\n";
             break;
-        }else if (command.empty()){
-            continue;
         }else{
             std::cout << "Command not Found";
         }
